@@ -1,0 +1,243 @@
+#photos {
+  opacity: .88;
+}
+
+#photos img {
+  width: 30%;
+  float: left;
+  display: block;
+  margin: 2px;
+}
+
+ul {
+  list-style: none;
+  margin: 0px auto;
+  padding: 10px;
+  display: block;
+  max-width: 780px;
+  text-align: center;
+}
+
+#overlay {
+  background: rgba(0,0,0, .8);
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+  display: none;
+  text-align: center;
+}
+
+#overlay img {
+  margin: 10% auto 0;
+  width: 550px;
+  border-radius: 5px;
+}
+
+#photos {
+  width: 100%;
+}
+
+#photo-gallery {
+  width: 100%;
+}
+
+#single {
+  width: 30%;
+  display: inline-flex;
+  margin: 20px;
+  opacity: .88;
+}
+
+.wrapper{
+  padding-top: 40px;
+}
+
+.search {
+  width: 100%;
+  position: fixed;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 3px solid #708090;
+  border-right: none;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #708090;
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 3px solid #708090;
+  background: #708090 no-repeat;
+  background-size: 30px 27px;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 30%;
+  position: relative;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.container {
+  padding: 1px;
+}
+
+#file--input {
+  margin-bottom: 1rem;
+  background: blue;
+  height: 60%;
+  display: none;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px;
+  background: #34495e;
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: .7em;
+  margin-left: .6rem;
+}
+
+.login-item input{
+  width:350px;
+  height:40px;
+}
+.login-item a{
+  width:100px;
+  height:40px;
+  background-color:grey;
+  display:inline-flex;
+  line-height:50px;
+  text-algin:center;
+  color:white;
+  border-radius: .7em;
+}
+.login-item{
+  margin-top: 10px;
+  margin-left:20px;
+  text-align: center;
+  display:inline-flex;
+}
+#loginBox{
+    width: 700px;
+    height: 450px;
+    border: solid 1px #b5b0b0;
+    border-radius: 5px;
+    position: absolute;
+    left: 28%;
+    bottom: 30%;
+    background: #eee;
+    line-height: 40px;
+    text-align: center;
+    display: none;
+    font-size:16px;
+}
+
+.container2 {
+  display: inline-flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+}
+  .btn-upload {
+    width: 200px;
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 5px;
+    background: #708090;
+    font-family: sans-serif;
+    color: #fff;
+    text-align: center;
+  }
+    .btn-upload2 a {
+    width: 150px;
+      height: 50px;
+      margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background: #708090;
+    font-family: sans-serif;
+    color: #fff;
+    text-align: center;
+  }
+  .preview-box{
+    display: inline-flex;
+    justify-content: center;
+    width: 200%;
+    max-width: 600px;
+    height: 200px;
+    border: 1px solid #e0e0e0;
+    background-color: #fafafa}
+
+  .preview-content{
+    width: 300px;
+    height: 200px}
+
+  #transcript {
+    margin: 30px 0;
+    white-space: pre-wrap;
+}
+
+#start-button,
+#stop-button {
+    margin: 5px 0;
+}
+
+#error {
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.4rem;
+    border-radius: 5px 5px 5px 5px;
+    color: #D8000C;
+    background-color: #FFD2D2;
+    display: none;
+}
+
+.isa_error i {
+    margin: 2px 12px;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+#logo {
+    height: 52px;
+}
+
+#github {
+    fill: #146eb4;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    border: 0;
+    right: 0;
+}
+
+.small-caps {
+    font-variant: small-caps;
+}

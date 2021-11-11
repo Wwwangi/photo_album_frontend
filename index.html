@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Amazon Transcribe WebSocket API - Sample Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta24/shoelace.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
+    <script src="./js/apiGateway-js-sdk/apigClient.js"></script>
+    <script src="./js/aws-sdk.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="error" class="isa_error"></div>
+
+        <div class="row">
+            <div class="col">
+                <label>Language: </label>
+                <select id="language">
+                    <optgroup label="English">
+                        <option value="en-US">US English (en-US)</option>
+                        <option value="en-AU">Australian English (en-AU)</option>
+                        <option value="en-GB">British English (en-GB)</option>
+                    </optgroup>
+                    <optgroup label="French">
+                        <option value="fr-CA">Canadian French (fr-CA)</option>
+                        <option value="fr-FR">French (fr-FR)</option>
+                    </optgroup>
+                    <optgroup label="Spanish">
+                        <option value="es-US">US Spanish (es-US)</option>
+                    </optgroup>
+                </select>
+
+                <label>Region:</label>
+                <select id="region">
+                    <option value="us-east-1">US East (N. Virginia)</option>
+                    <option value="us-east-2">US East (Ohio)</option>
+                    <option value="us-west-2">US West (Oregon)</option>
+                    <option value="ap-southeast-2">Asia Pacific (Sydney)</option>
+                    <option value="ca-central-1">Canada (Central)</option>
+                    <option value="eu-west-1">EU (Ireland)</option>
+                </select>
+            </div>
+        </div>
+        <textarea id="transcript" placeholder="Press Start and speak into your mic" rows="5"
+            readonly="readonly"></textarea>
+        <div class="row">
+            <div class="col">
+                <button id="start-button" class="button-xl" title="Start Transcription">
+                    <i class="fa fa-microphone"></i> Start
+                </button>
+                <button id="stop-button" class="button-xl" title="Stop Transcription" disabled="true"><i
+                        class="fa fa-stop-circle"></i> Stop
+                </button>
+                <button id="reset-button" class="button-xl button-secondary" title="Clear Transcript">
+                    Clear Transcript
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <div class="search">
+            <input type="text" class="searchTerm" placeholder="What are you looking for?">
+            <button type="submit" class="searchButton">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
+
+    <div>
+        <button type="button" id="popbutton" class="button">upload photo</button>
+    </div>
+
+    <div id="wrapper" class='wrapper'></div>
+
+    <div id="loginBox">
+        <div class="container">
+            <div id="drop--area">
+                <form action="" class="form" id="form">
+                    <div class="container2">
+                        <input
+                                type="file"
+                                id="input-file"
+                                name="input-file"
+                                accept="image/*"
+                                onchange={handleChange()}
+                                hidden
+                        />
+                        <label class="btn-upload" for="input-file" role="button">
+                            Select Photo
+                        </label>
+                        <div class="preview-box"></div>
+                    </div>
+                    <!--    <input type="file" id="file&#45;&#45;input" multiple accept="image/*" onchange="handleFiles(this.files)">-->
+                    <!--    <label for="file&#45;&#45;input" class="button">select photo</label>-->
+                    <div class="login-item"><input type="text" id="tags" placeholder="please enter tags"></div>
+                    <div class="btn-upload2"><a href="javascript:;">upload!</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var sdk = apigClientFactory.newClient({});
+
+    </script>
+    <script src='./js/animate.js'></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="dist/main.js"></script>
+</body>
+
+</html>
