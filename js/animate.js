@@ -74,10 +74,12 @@ function callSearchApi(tags) {
     console.log('enter callSearch');
     console.log(tags);
     console.log(sdk.searchGet({
-        "q": tags
+        "q": tags,
+        "x-api-key": "20glHC7NVQ8SKcdsVCUX84SmpCxJsbkz1VdPYYJn"
     }, {}, {}));
     return sdk.searchGet({
-        "q": tags
+        "q": tags,
+        "x-api-key": "20glHC7NVQ8SKcdsVCUX84SmpCxJsbkz1VdPYYJn"
     }, {}, {});
 }
 
@@ -136,83 +138,21 @@ function callPutApi(key, file) {
     var tags = $('#tags').val();
     console.log(tags);
     console.log(file);
-    //var base64data = reader.result;
-    //console.log(base64data);
 
     console.log("try upload!!!!!!!!!");
 
-    var url = "https://3bzu0xvs6k.execute-api.us-east-1.amazonaws.com/test001/upload/photos-storehouse/" + key;
-
-    const header = {
-        "ACL": "public-read",
-        "Access-Control-Allow-Origin" : "*",
-        "x-amz-meta-customLabels": tags,
-        "Content-Type": "image/jpeg"
-    };
-
-    axios.put(url, file, header).then(response => {
-        console.log(response.data);
-    });
-    // }).catch(e => {
-    //     console.log(e);
-    // });
-
-    // var xhr = new XMLHttpRequest();
-    // xhr.open("PUT", url);
-    //
-    // xhr.setRequestHeader("Content-Type", "image/jpeg");
-    // xhr.setRequestHeader("x-amz-meta-customLabels", tags);
-    // xhr.setRequestHeader("Cache-Control", "no-cache");
-    // xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-    // console.log(xhr, file)
-    //
-    // xhr.onreadystatechange = function () {
-    //     if (xhr.readyState === 4) {
-    //         console.log(xhr.status);
-    //         console.log(xhr.responseText);
-    //     }
-    // };
-    //
-    // xhr.send(file);
-
-    // var AWS = require('aws-sdk');
-    //
-    // AWS.config.update({
-    //     accessKeyId: "AKIAXG3OXSRYUB6ZGR6P", // Access key ID
-    //     secretAccesskey: "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", // Secret access key
-    //     region: "us-east-1" //Region
-    // })
-    // const s3 = new AWS.S3();
-    //
-    // // Binary data base64
-    // //const fileContent = Buffer.from(uploadedFile.data, 'binary');
-    //
-    // // Setting up S3 upload parameters
-    // const params = {
-    //     ACL: "public-read",
-    //     Bucket: 'photos-storehouse',
-    //     Key: key, // File name you want to save as in S3
-    //     Body: file
-    // };
-    //
-    // console.log(params)
-    // // Uploading files to the bucket
-    // s3.upload(params, function (err, data) {
-    //     if (err) {
-    //         throw err;
-    //     }
-    //     res.send({
-    //         "response_code": 200,
-    //         "response_message": "Success",
-    //         "response_data": data
-    //     });
-    // });
-    // return sdk.uploadBucketKeyPut({
-    //     "key": key,
-    //     "bucket": 'photos-storehouse',
-    //     "x-amz-meta-customLabels": tags
-    // }, base64data, {});
+    var url = "https://3zl1te2ll5.execute-api.us-east-1.amazonaws.com/test-1/upload/photos-storehouse/" + key;
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            "x-amz-meta-customLabels": tags,
+            "Content-Type": file.type
+        },
+        body: file
+    }).then(response => {
+        // return response.json()
+    }).then(data =>
+        console.log(data)
+    );
 }
-
-
 

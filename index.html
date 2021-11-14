@@ -22,6 +22,7 @@
     <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
     <script type="text/javascript" src="./js/apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
     <script src="./js/apiGateway-js-sdk/apigClient.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.864.0.min.js"></script>
     <script src="./js/aws-sdk.min.js"></script>
 </head>
 
@@ -119,7 +120,11 @@
     </div>
     <script>
 
-        var sdk = apigClientFactory.newClient({});
+        var sdk = apigClientFactory.newClient({
+            invokeUrl: "https://3zl1te2ll5.execute-api.us-east-1.amazonaws.com/test-1",
+            apiKey: "20glHC7NVQ8SKcdsVCUX84SmpCxJsbkz1VdPYYJn",
+            region: "us-east-1"
+        });
 
     </script>
     <script src='./js/animate.js'></script>
