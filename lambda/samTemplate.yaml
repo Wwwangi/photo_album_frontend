@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Python file including external library
+Resources:
+ LF1:
+  Type: AWS::Serverless::Function
+  Properties:
+   Runtime: python3.9
+   CodeUri: ./index-photos-copy
+   FunctionName: index-photos-copy
+   Handler: index-photos.lambda_handler
+   Role: arn:aws:iam::495764083825:role/service-role/index-photos-role-5owx62da
+   Policies:
+    - AWSLambdaExecute
+    - CloudWatchLogsFullAccess
+    - AmazonRekognitionFullAccess
+
+ LF2:
+  Type: AWS::Serverless::Function
+  Properties:
+   Runtime: python3.9
+   CodeUri: ./search-photos-copy
+   Handler: search-photos.lambda_handler
+   FunctionName: search-photos-copy
+   Role: arn:aws:iam::495764083825:role/service-role/search-photos-role-z1jagkj1
+   Policies:
+    - AWSLambdaExecute
+    - CloudWatchLogsFullAccess
+    - AmazonRekognitionFullAccess
+    - AmazonLexFullAccess

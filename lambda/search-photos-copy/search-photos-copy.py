@@ -43,6 +43,23 @@ def lambda_handler(event, context):
         if not tag:
             continue
 
+        if tag == 'mice':
+            tag_modify = 'mouse'
+
+        if tag.endswith('s'):
+            tag_modify = tag[:-1]
+        elif tag.endswith('shes') or tag.endswith('ches') or tag.endswith('ses') or tag.endswith('xes') or tag.endswith(
+                'zes'):
+            tag_modify = tag[:-2]
+        elif tag.endswith('ies'):
+            tag_modify = tag[:-3]
+            tag_modify += 'y'
+        else:
+            tag_modify = tag
+
+        print(tag, tag_modify)
+        tag = tag_modify
+
         url = get_url(index, type, tag)
         print("ES URL --- {}".format(url))
 

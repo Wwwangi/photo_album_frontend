@@ -1,0 +1,356 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS CloudFormation sample template that contains a single Lambda function
+  behind an API Gateway
+Resources:
+  Lambda2:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: lambdas-codebuild-bucket-888
+        S3Key: f2fda95b4adeef7049ea65ee2944a876
+      Description: Photo search
+      Tags:
+        - Value: SAM
+          Key: 'lambda:createdBy'
+      MemorySize: 128
+      Environment:
+        Variables:
+          REGION: us-east-1
+      Handler: lambda_function.lambda_handler
+      Role: 'arn:aws:iam::391034868959:role/lambda-s3-reko'
+      Timeout: 30
+      Runtime: python3.8
+      FunctionName: hw2-LF2-3
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e1fd344b-486e-44fb-9df0-1af0f179ff8a
+  PhotoAlbumApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: Photo Album API
+      Description: API used for Photo Album
+      FailOnWarnings: true
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+  Upload:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId: !Ref PhotoAlbumApi
+      ParentId: !GetAtt
+        - PhotoAlbumApi
+        - RootResourceId
+      PathPart: 'upload'
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+  Search:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId: !Ref PhotoAlbumApi
+      ParentId: !GetAtt
+        - PhotoAlbumApi
+        - RootResourceId
+      PathPart: 'search'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+  searchGET:
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      ApiKeyRequired: true
+      HttpMethod: GET
+      ResourceId: !Ref Search
+      RestApiId: !Ref PhotoAlbumApi
+      MethodResponses:
+        - StatusCode: 200
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 93a16bef-a353-428f-ab87-b0003d39cad7
+  PhotoAlbumApiStage:
+    Type: 'AWS::ApiGateway::Stage'
+    Properties:
+      DeploymentId: !Ref ApiDeployment
+      MethodSettings:
+        - DataTraceEnabled: true
+          HttpMethod: '*'
+          LoggingLevel: INFO
+          ResourcePath: /*
+      RestApiId: !Ref PhotoAlbumApi
+      StageName: testing-3
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9b62554c-6a4a-4294-be35-a6952b339ff4
+  ApiDeployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      - Upload
+      - Search
+      - searchGET
+    Properties:
+      RestApiId: !Ref PhotoAlbumApi
+      StageName: testing-3
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 42dc2ad3-2a6d-4f28-967c-9faffb40dbf7
+  Lambda1:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Code:
+        S3Bucket: lambdas-codebuild-bucket-888
+        S3Key: e7c5d88d201570ca0073a0f9e5b8ec47
+      Description: Upload
+      Tags:
+        - Value: SAM
+          Key: 'lambda:createdBy'
+      MemorySize: 128
+      Environment:
+        Variables:
+          REGION: us-east-1
+      Handler: lambda_function.lambda_handler
+      Role: 'arn:aws:iam::391034868959:role/lambda-s3-reko'
+      Timeout: 30
+      Runtime: python3.8
+      FunctionName: hw2-LF1-2
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 75f51e5f-4bc6-4895-bb27-e0fdc6dfa053
+  S3PhotoAlbum:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: hw2-photos-bucket-3
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: d8a2ada4-d36c-4bf1-a0ab-87012a7fdfa8
+  S3Frontend:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      AccessControl: PublicRead
+      BucketName: 'hw2-s1-frontend-3'
+      WebsiteConfiguration:
+        IndexDocument: index.html
+    DeletionPolicy: Delete
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f074b227-174d-44c9-a275-0f94e4c092d7
+  OpenSearchDomain:
+    Type: 'AWS::OpenSearchService::Domain'
+    Properties:
+      DomainName: hw2-photos-3
+      EngineVersion: OpenSearch_1.0
+      ClusterConfig:
+        InstanceCount: '1'
+        InstanceType: t3.small.search
+      EBSOptions:
+        EBSEnabled: true
+        VolumeSize: '20'
+        VolumeType: gp2
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 0d7e5554-b835-461c-a6fc-f66dfd1e35b9
+Metadata:
+  'AWS::CloudFormation::Designer':
+    69881e64-8f13-49cc-8030-2f4afaa2fb7f:
+      size:
+        width: 180
+        height: 180
+      position:
+        x: 360
+        'y': 90
+      z: 1
+      embeds:
+        - 42dc2ad3-2a6d-4f28-967c-9faffb40dbf7
+    fa1bd6eb-98df-4e75-a53d-9ca9ca3df255:
+      size:
+        width: 210
+        height: 210
+      position:
+        x: 60
+        'y': 90
+      z: 1
+      embeds:
+        - c43beace-efd8-411c-b996-76b7cf9ccf17
+    93a16bef-a353-428f-ab87-b0003d39cad7:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 720
+        'y': 210
+      z: 2
+      parent: 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+      embeds: []
+      iscontainedinside:
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+    42dc2ad3-2a6d-4f28-967c-9faffb40dbf7:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 390
+        'y': 150
+      z: 2
+      parent: 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+      embeds: []
+      iscontainedinside:
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+      dependson:
+        - 93a16bef-a353-428f-ab87-b0003d39cad7
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - 9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd
+    9b62554c-6a4a-4294-be35-a6952b339ff4:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 510
+        'y': 30
+      z: 1
+      embeds: []
+    e1fd344b-486e-44fb-9df0-1af0f179ff8a:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 720
+        'y': 420
+      z: 1
+      embeds: []
+    c43beace-efd8-411c-b996-76b7cf9ccf17:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 120
+        'y': 150
+      z: 2
+      parent: fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+      embeds: []
+      iscontainedinside:
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - 69881e64-8f13-49cc-8030-2f4afaa2fb7f
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+        - fa1bd6eb-98df-4e75-a53d-9ca9ca3df255
+    75f51e5f-4bc6-4895-bb27-e0fdc6dfa053:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 120
+        'y': 420
+      z: 1
+      embeds: []
+    9e9ebb52-b635-4a5d-85fb-51c8f3d6bdcd:
+      size:
+        width: 210
+        height: 210
+      position:
+        x: 600
+        'y': 90
+      z: 1
+      embeds:
+        - 93a16bef-a353-428f-ab87-b0003d39cad7
+    d8a2ada4-d36c-4bf1-a0ab-87012a7fdfa8:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 420
+        'y': 420
+      z: 1
+      embeds: []
+    f074b227-174d-44c9-a275-0f94e4c092d7:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 840
+        'y': 90
+      z: 1
+      embeds: []
+    0d7e5554-b835-461c-a6fc-f66dfd1e35b9:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 720
+        'y': 540
+      z: 1
+      embeds: []

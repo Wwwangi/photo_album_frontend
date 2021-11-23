@@ -20,7 +20,7 @@ s3 = boto3.client('s3')
 
 
 def lambda_handler(event, context):
-    print("event: ", event)
+    print("copyyyyyy11111122222 event: ", event)
 
     # # search by query
     # search_item = 'dog.jpeg'
